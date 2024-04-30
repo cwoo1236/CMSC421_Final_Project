@@ -144,21 +144,36 @@ for name, classifier in classifiers.items():
 # Use GUI to make predictions on new text
 import tkinter as tk
 root = tk.Tk()
-root.title("Naive Bayes Email Spam Filter")
+root.title("Random Forest Email Spam Filter")
 
 def predict(text, modelKey):
     x = tfid.transform([text])
     model = classifiers[modelKey]
     res = model.predict(x)
     if res[0] == 0:
-        print("Not spam!")
+        print(f"Not spam! -- {text}")
     else:
-        print("Spam!")
+        print(f"Spam! -- {text}")
+
+def ensemble_predict(text):
+    x = tfid.transform([text]).toarray()
+    predictions = []
+
+    for name, model in classifiers.items():
+        pred = model.predict(x)
+        predictions.append(pred[0])
+
+    # we have 6 models; err on the side of more false negatives
+    if predictions.count(0) >= 3:
+        print(f"voted not spam! -- {text}")
+    else:
+        print(f"voted spam! -- {text}")
 
 def submit():
     text = text_input.get('1.0', 'end-1c')
     if text:
         predict(text, "RF")
+        ensemble_predict(text)
 
 text_input = tk.Text(root, height=10, width=50)
 text_input.pack(pady=10)
