@@ -87,6 +87,7 @@ def preprocess_text(text):
 example_text = 'Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...'
 processed_example_text = preprocess_text(example_text)
 print(processed_example_text)
+spam_df["Transformed Message"] = spam_df["Message"].apply(preprocess_text)
 
 #x_train.describe()
 
@@ -134,8 +135,35 @@ def train_classifier(clfs, X_train, y_train, X_test, y_test):
     return accuracy , precision
 
 # @title Evaluating Models
-for name, classifiers in classifiers.items():
-    current_accuracy, current_precision = train_classifier(classifiers, x_train, y_train, x_test, y_test)
+for name, classifier in classifiers.items():
+    current_accuracy, current_precision = train_classifier(classifier, x_train, y_train, x_test, y_test)
     print("\nFor: ", name)
     print("Accuracy: ", current_accuracy)
     print("Precision: ", current_precision)
+
+# Use GUI to make predictions on new text
+import tkinter as tk
+root = tk.Tk()
+root.title("Naive Bayes Email Spam Filter")
+
+def predict(text, modelKey):
+    x = tfid.transform([text])
+    model = classifiers[modelKey]
+    res = model.predict(x)
+    if res[0] == 0:
+        print("Not spam!")
+    else:
+        print("Spam!")
+
+def submit():
+    text = text_input.get('1.0', 'end-1c')
+    if text:
+        predict(text, "RF")
+
+text_input = tk.Text(root, height=10, width=50)
+text_input.pack(pady=10)
+
+submit_button = tk.Button(root, text="Submit", command=submit)
+submit_button.pack()
+
+root.mainloop()
