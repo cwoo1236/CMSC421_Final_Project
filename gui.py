@@ -1,9 +1,10 @@
 # Use GUI to make predictions on new text
-import tkinter as tk
+from tkinter import *
 from joblib import load
 
-root = tk.Tk()
+root = Tk()
 root.title("Ensemble Email Spam Filter")
+root.configure(bg='white')
 
 # exclude KNN due to poor accuracy
 classifiers = dict()
@@ -34,15 +35,21 @@ def submit():
     if text:
         ensemble_predict(text)
 
-    text_input.delete('1.0', tk.END)
+    text_input.delete('1.0', END)
 
-text_input = tk.Text(root, height=10, width=50)
+title = Label(root, text="Email Spam Filter", font=("HelvLight", 20), pady=10, bg='white')
+title.pack()
+
+frame = Frame(root, bg='white')
+frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+text_input = Text(frame, height=2, width=50, relief=FLAT, bg='#dedede')
 text_input.pack(pady=10)
 
-submit_button = tk.Button(root, text="Submit", command=submit)
+submit_button = Button(frame, text="Submit", relief=FLAT, command=submit, bg="#4287f5", fg="white", pady=5)
 submit_button.pack()
 
-result_label = tk.Label(root, text="")
+result_label = Label(frame, text="", bg='white')
 result_label.pack()
 
 root.mainloop()
