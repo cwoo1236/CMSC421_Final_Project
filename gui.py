@@ -6,7 +6,7 @@ root = Tk()
 root.title("Ensemble Email Spam Filter")
 root.configure(bg='white')
 
-# exclude KNN due to poor accuracy
+# exclude KNN, DT due to poor metrics
 classifiers = dict()
 classifier_names = ["LR", "SVC", "NB", "RF"]
 for name in classifier_names:
