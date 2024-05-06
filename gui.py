@@ -8,7 +8,7 @@ root.configure(bg='white')
 
 # exclude KNN due to poor accuracy
 classifiers = dict()
-classifier_names = ["LR", "SVC", "NB", "DT", "RF"]
+classifier_names = ["LR", "SVC", "NB", "RF"]
 for name in classifier_names:
     classifiers[name] = load(f"models/{name}_model.joblib")
 
@@ -41,9 +41,9 @@ title = Label(root, text="Email Spam Filter", font=("HelvLight", 20), pady=10, b
 title.pack()
 
 frame = Frame(root, bg='white')
-frame.pack(fill="both", expand=True, padx=10, pady=10)
+frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-text_input = Text(frame, height=2, width=50, relief=FLAT, bg='#dedede')
+text_input = Text(frame, height=2, width=50, relief=SOLID, bg='#dedede', borderwidth=1)
 text_input.pack(pady=10)
 
 submit_button = Button(frame, text="Submit", relief=FLAT, command=submit, bg="#4287f5", fg="white", pady=5)
