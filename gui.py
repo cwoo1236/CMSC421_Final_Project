@@ -24,11 +24,11 @@ def ensemble_predict(text):
     
     print(predictions)
 
-    # we have 6 models; err on the side of more false negatives
-    if predictions.count(0) >= 3:
-        result_label.config(text=f"Not spam! -- {text}")
+    # we have 4 models; err on the side of more false negatives
+    if predictions.count(0) >= 2:
+        result_label.config(text=f"Not spam!")
     else:
-        result_label.config(text=f"Spam! -- {text}")
+        result_label.config(text=f"Spam!")
 
 def submit():
     text = text_input.get('1.0', 'end-1c')
@@ -43,7 +43,7 @@ title.pack()
 frame = Frame(root, bg='white')
 frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-text_input = Text(frame, height=2, width=50, relief=SOLID, bg='#dedede', borderwidth=1)
+text_input = Text(frame, height=2, width=50, relief=SOLID, bg='#dedede', borderwidth=1, wrap=WORD)
 text_input.pack(pady=10)
 
 submit_button = Button(frame, text="Submit", relief=FLAT, command=submit, bg="#4287f5", fg="white", pady=5)
